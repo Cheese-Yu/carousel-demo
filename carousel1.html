@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="utf-8">
+	<title>carousel1</title>
+	<link rel="stylesheet" href="jd.css">
+</head>
+
+<body>
+<div id="btnlist">
+  <button id="leftbtn">向左</button>
+  <button id="stopbtn">暂停</button>
+  <button id="rightbtn">向右</button>
+</div>
+
+<div id="div1">
+  <ul>
+    <li>SLIDE 1</li>
+    <li style="background: #aaa;">SLIDE 2</li>
+    <li>SLIDE 3</li>
+    <li style="background: #aaa;">SLIDE 4</li>
+  </ul>
+</div>
+
+<style>
+  html {
+    border-top: 5px solid #fff;
+    background: #58DDAF;
+    color: #2a2a2a;
+  }
+
+	* {
+		margin:0;
+		padding:0;
+	}
+
+	#div1 {
+    position:relative;
+    width:100%;
+		margin:100px auto;
+		overflow:hidden;
+	}
+
+	#div1 ul {
+		position:absolute;
+		left:0;
+		top:0;
+	}
+
+	#div1 ul li {
+		float:left;
+		display: block;
+    width: 500px;
+    height: 50px;
+    background: #ccc;
+    list-style:none;
+    text-align: center;
+    line-height: 50px;
+  }
+
+  #btnlist{
+    text-align: center;
+    height: 100px;
+  }
+
+	button {
+		margin:100px;
+    padding: 5px 15px;
+    font-size: 16px;
+    background: #fff;
+    cursor: pointer;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+	}
+
+</style>
+
+<script>
+  window.onload = function(){
+    var oDiv = document.getElementById("div1");
+    var oUl = document.getElementsByTagName("ul")[0];
+    var oLi = document.getElementsByTagName("li");
+    var liHeight = document.getElementsByTagName("li")[0].offsetHeight;
+
+    oDiv.style.height = liHeight+'px';
+    oUl.innerHTML = oUl.innerHTML+oUl.innerHTML;
+    oUl.style.width = oLi[0].offsetWidth * oLi.length+"px";
+
+
+    //移动速度
+    var speed=2;
+
+
+    //控制滚动的方向
+    var leftbtn = document.getElementById("leftbtn");
+    var stopbtn = document.getElementById("stopbtn");
+    var rightbtn = document.getElementById("rightbtn");
+
+    leftbtn.onclick = function(){
+      speed = 2;
+    };
+    stopbtn.onclick = function(){
+      speed = 0;
+    };
+    rightbtn.onclick = function(){
+      speed = -2;
+    };
+
+    //移动函数
+    function  move(){
+      oUl.style.left = oUl.offsetLeft - speed + "px";
+
+      if(oUl.offsetLeft < -oUl.offsetWidth/2){
+        oUl.style.left = "0";
+      }
+
+      if(oUl.offsetLeft > 0){
+        oUl.style.left = -oUl.offsetWidth/2 + "px";
+      }
+    }
+
+    //定时器  控制移动的时间
+    var timer = setInterval(move,30);
+
+    //鼠标移入
+    oDiv.onmouseover = function(){
+      clearInterval(timer);
+    };
+
+    //鼠标移开
+    oDiv.onmouseout = function(){
+      timer = setInterval(move,30);
+    };
+  }
+</script>
+</body>
+</html>
